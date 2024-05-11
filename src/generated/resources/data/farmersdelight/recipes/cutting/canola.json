@@ -1,0 +1,20 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "frycooks_delight:canola"
+    }
+  ],
+  "result": [
+    {
+      "count": 2,
+      "item": "frycooks_delight:canola_seeds"
+    },
+    {
+      "item": "minecraft:yellow_dye"
+    }
+  ],
+  "tool": {
+    "tag": "forge:tools/knives"
+  }
+}

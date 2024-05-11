@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#frycooks_delight:canola_spawn_in",
+  "features": "frycooks_delight:wild_canola",
+  "step": "vegetal_decoration"
+}

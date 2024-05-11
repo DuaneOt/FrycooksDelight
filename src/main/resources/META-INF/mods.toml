@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="GNU Lesser General Public License v3.0"
+
+[[mods]]
+modId = "frycooks_delight"
+version = "${file.jarVersion}"
+logoFile = "frycooks_delight_icon.png"
+authors = "Uraneptus"
+credits = "Assets by ArBeet, Idea by Witch Warren"
+#displayURL = "https://github.com/Uraneptus/Sullys-Mod"
+displayName = "Frycook's Delight"
+description = '''
+Farmer's Delight addon that adds fry cooking
+'''
+
+[[dependencies.frycooks_delight]]
+    modId="forge"
+    mandatory=true
+    versionRange="(47,]"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.frycooks_delight]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.frycooks_delight]]
+    modId = "farmersdelight"
+    mandatory = true
+    versionRange = "[1.2.4,)"
+    ordering = "BEFORE"
+    side = "BOTH"

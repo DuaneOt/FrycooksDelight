@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "frycooks_delight:item/canola_oil_bucket"
+  }
+}
