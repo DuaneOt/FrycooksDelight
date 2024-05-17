@@ -41,6 +41,7 @@ public class FCDBlockLoot extends BlockLootSubProvider {
     protected void generate() {
         this.dropSelf(FCDBlocks.CANOLA_CRATE.get());
         this.dropSelf(FCDBlocks.CANOLA_PLANT.get());
+        this.dropOther(FCDBlocks.CANOLA_OIL_CAULDRON.get(), Blocks.CAULDRON);
 
         LootItemCondition.Builder lootitemcondition$builder1 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(FCDBlocks.CANOLA_PLANT.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CropBlock.AGE, 7));
         this.add(FCDBlocks.CANOLA_PLANT.get(), this.createCropDrops(FCDBlocks.CANOLA_PLANT.get(), FCDItems.CANOLA.get(), FCDItems.CANOLA_SEEDS.get(), lootitemcondition$builder1));
@@ -49,12 +50,12 @@ public class FCDBlockLoot extends BlockLootSubProvider {
 
     @Override
     protected LootTable.Builder createCropDrops(Block pCropBlock, Item pGrownCropItem, Item pSeedsItem, LootItemCondition.Builder pDropGrownCropCondition) {
-        return this.applyExplosionDecay(pCropBlock, LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(pGrownCropItem).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))).when(pDropGrownCropCondition).otherwise(LootItem.lootTableItem(pSeedsItem)))).withPool(LootPool.lootPool().add(LootItem.lootTableItem(pSeedsItem)).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))).when(pDropGrownCropCondition)));
-
+        return this.applyExplosionDecay(pCropBlock, LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(pGrownCropItem).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))).when(pDropGrownCropCondition).otherwise(LootItem.lootTableItem(pSeedsItem)))).withPool(LootPool.lootPool().add(LootItem.lootTableItem(pSeedsItem)).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))).when(pDropGrownCropCondition)));
+        //TODO add the replace seed with straw when using knife feature
     }
 
     protected LootTable.Builder createWildCropDrops(Block pCropBlock, Item pGrownCropItem, Item pSeedsItem) {
-        return this.applyExplosionDecay(pCropBlock, LootTable.lootTable().withPool(LootPool.lootPool().add(AlternativesEntry.alternatives(LootItem.lootTableItem(pCropBlock).when(HAS_SHEARS), LootItem.lootTableItem(pSeedsItem).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))))).withPool(LootPool.lootPool().add(LootItem.lootTableItem(pGrownCropItem)).when(HAS_SHEARS.invert())));
+        return this.applyExplosionDecay(pCropBlock, LootTable.lootTable().withPool(LootPool.lootPool().add(AlternativesEntry.alternatives(LootItem.lootTableItem(pCropBlock).when(HAS_SHEARS), LootItem.lootTableItem(pSeedsItem).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)))))).withPool(LootPool.lootPool().add(LootItem.lootTableItem(pGrownCropItem)).when(HAS_SHEARS.invert())));
 
     }
 }

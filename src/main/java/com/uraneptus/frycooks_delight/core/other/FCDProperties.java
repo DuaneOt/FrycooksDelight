@@ -20,6 +20,7 @@ public class FCDProperties {
     public static final BlockBehaviour.Properties CANOLA_PLANT = BlockBehaviour.Properties.copy(Blocks.WHEAT);
     public static final BlockBehaviour.Properties WILD_CANOLA = BlockBehaviour.Properties.copy(Blocks.TALL_GRASS);
     public static final BlockBehaviour.Properties CANOLA_OIL = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).noCollission().strength(100).noLootTable().replaceable().liquid().pushReaction(PushReaction.DESTROY);
+    public static final BlockBehaviour.Properties CANOLA_OIL_CAULDRON = BlockBehaviour.Properties.copy(Blocks.CAULDRON).randomTicks();
 
     public static final Item.Properties CANOLA_OIL_BUCKET = new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1);
 

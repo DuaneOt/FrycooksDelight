@@ -1,6 +1,7 @@
 package com.uraneptus.frycooks_delight.data.client;
 
 import com.uraneptus.frycooks_delight.FrycooksDelight;
+import com.uraneptus.frycooks_delight.common.blocks.CanolaOilCauldronBlock;
 import com.uraneptus.frycooks_delight.core.registry.FCDBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +27,7 @@ public class FCDBlockStateProvider extends BlockStateProvider {
         crateBlock(FCDBlocks.CANOLA_CRATE, "canola");
         stageCropBlock(FCDBlocks.CANOLA_PLANT);
         wildCropBlock(FCDBlocks.WILD_CANOLA);
+        canolaCauldronBlock(FCDBlocks.CANOLA_OIL_CAULDRON);
     }
 
     private void basicBlock(Supplier<? extends Block> block) {
@@ -58,5 +60,34 @@ public class FCDBlockStateProvider extends BlockStateProvider {
         itemModels().getBuilder(name(block.get())).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", modBlockLocation("canola_plant7")); //TODO use name(block.get()) later
         //this.simpleBlock(block.get(), this.models().cross(name(block.get()), modBlockLocation(name(block.get()))).renderType("cutout")); //TODO use this when custom texture is here
+    }
+
+    public void canolaCauldronBlock(Supplier<? extends Block> block) {
+        getVariantBuilder(block.get()).forAllStates(blockState -> {
+            int level = blockState.getValue(CanolaOilCauldronBlock.LEVEL);
+            int oil_stage = blockState.getValue(CanolaOilCauldronBlock.OIL_STAGE);
+
+            String levelSuffix = switch (level) {
+                case 1 -> "_level1";
+                case 2 -> "_level2";
+                case 3 -> "_full";
+                default -> "";
+            };
+
+            String templatePath = "template_cauldron" + levelSuffix;
+            String oilStageSuffix = "_oil_stage_" + oil_stage;
+            String modelName = name(block.get()) + oilStageSuffix + levelSuffix;
+            ResourceLocation cauldronLoc = vanillaBlockLocation(name(Blocks.CAULDRON));
+
+            ModelFile file = models().withExistingParent(modelName, vanillaBlockLocation(templatePath))
+                    .texture("bottom", cauldronLoc + "_bottom")
+                    .texture("content", modBlockLocation("canola_oil" + oil_stage))
+                    .texture("inside", cauldronLoc + "_inner")
+                    .texture("particle", cauldronLoc + "_side")
+                    .texture("side", cauldronLoc + "_side")
+                    .texture("top", cauldronLoc + "_top");
+
+            return ConfiguredModel.builder().modelFile(file).build();
+        });
     }
 }

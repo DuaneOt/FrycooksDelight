@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "level=1,oil_stage=1": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_1_level1"
+    },
+    "level=1,oil_stage=2": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_2_level1"
+    },
+    "level=1,oil_stage=3": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_3_level1"
+    },
+    "level=1,oil_stage=4": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_4_level1"
+    },
+    "level=1,oil_stage=5": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_5_level1"
+    },
+    "level=1,oil_stage=6": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_6_level1"
+    },
+    "level=1,oil_stage=7": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_7_level1"
+    },
+    "level=1,oil_stage=8": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_8_level1"
+    },
+    "level=2,oil_stage=1": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_1_level2"
+    },
+    "level=2,oil_stage=2": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_2_level2"
+    },
+    "level=2,oil_stage=3": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_3_level2"
+    },
+    "level=2,oil_stage=4": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_4_level2"
+    },
+    "level=2,oil_stage=5": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_5_level2"
+    },
+    "level=2,oil_stage=6": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_6_level2"
+    },
+    "level=2,oil_stage=7": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_7_level2"
+    },
+    "level=2,oil_stage=8": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_8_level2"
+    },
+    "level=3,oil_stage=1": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_1_full"
+    },
+    "level=3,oil_stage=2": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_2_full"
+    },
+    "level=3,oil_stage=3": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_3_full"
+    },
+    "level=3,oil_stage=4": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_4_full"
+    },
+    "level=3,oil_stage=5": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_5_full"
+    },
+    "level=3,oil_stage=6": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_6_full"
+    },
+    "level=3,oil_stage=7": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_7_full"
+    },
+    "level=3,oil_stage=8": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_8_full"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 package com.uraneptus.frycooks_delight.core.registry;
 
 import com.uraneptus.frycooks_delight.FrycooksDelight;
+import com.uraneptus.frycooks_delight.common.blocks.CanolaOilCauldronBlock;
 import com.uraneptus.frycooks_delight.common.blocks.CanolaOilFluidBlock;
 import com.uraneptus.frycooks_delight.common.blocks.CanolaPlantBlock;
 import com.uraneptus.frycooks_delight.core.other.FCDProperties;
@@ -27,6 +28,7 @@ public class FCDBlocks {
     public static final RegistryObject<Block> CANOLA_PLANT = registerWithoutItem("canola_plant", () -> new CanolaPlantBlock(FCDProperties.CANOLA_PLANT)); //TODO make compostable
     public static final RegistryObject<Block> WILD_CANOLA = registerWithBlockItem("wild_canola", () -> new WildCropBlock(MobEffects.MOVEMENT_SPEED, 6,  FCDProperties.WILD_CANOLA)); //TODO make compostable
     public static final RegistryObject<LiquidBlock> CANOLA_OIL = registerWithoutItem("canola_oil", () -> new CanolaOilFluidBlock(FCDFluids.CANOLA_OIL_SOURCE, FCDProperties.CANOLA_OIL));
+    public static final RegistryObject<Block> CANOLA_OIL_CAULDRON = registerWithoutItem("canola_oil_cauldron", () -> new CanolaOilCauldronBlock(FCDProperties.CANOLA_OIL_CAULDRON));
 
     public static <T extends Block> RegistryObject<T> registerWithBlockItem(String name, Supplier<T> blockSupplier) {
         RegistryObject<T> blockObj = BLOCKS.register(name, blockSupplier);
