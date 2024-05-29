@@ -14,8 +14,8 @@ public class FCDClientEvents {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        ItemBlockRenderTypes.setRenderLayer(FCDFluids.CANOLA_OIL_SOURCE.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(FCDFluids.CANOLA_OIL_FLOWING.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(FCDFluids.HOT_GREASE_SOURCE.get(), RenderType.solid());
+        ItemBlockRenderTypes.setRenderLayer(FCDFluids.HOT_GREASE_FLOWING.get(), RenderType.solid());
     }
 
 }

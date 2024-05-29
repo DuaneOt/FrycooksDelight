@@ -1,10 +1,12 @@
 package com.uraneptus.frycooks_delight.data.server.tags;
 
 import com.uraneptus.frycooks_delight.FrycooksDelight;
+import com.uraneptus.frycooks_delight.core.other.tags.FCDBlockTags;
 import com.uraneptus.frycooks_delight.core.registry.FCDBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -22,5 +24,13 @@ public class FCDBlockTagsProvider extends BlockTagsProvider {
     public void addTags(HolderLookup.Provider pProvider) {
         tag(BlockTags.CROPS).add(FCDBlocks.CANOLA_PLANT.get());
         tag(BlockTags.SMALL_FLOWERS).add(FCDBlocks.WILD_CANOLA.get());
+        tag(FCDBlockTags.FRY_HEAT_SOURCES).add(
+                Blocks.FIRE,
+                Blocks.SOUL_FIRE,
+                Blocks.CAMPFIRE,
+                Blocks.SOUL_CAMPFIRE,
+                Blocks.LAVA,
+                Blocks.MAGMA_BLOCK
+        );
     }
 }

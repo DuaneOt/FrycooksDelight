@@ -5,9 +5,9 @@ import net.minecraft.world.level.material.FlowingFluid;
 
 import java.util.function.Supplier;
 
-public class CanolaOilFluidBlock extends LiquidBlock {
+public class HotGreaseFluidBlock extends LiquidBlock {
 
-    public CanolaOilFluidBlock(Supplier<? extends FlowingFluid> pFluid, Properties pProperties) {
+    public HotGreaseFluidBlock(Supplier<? extends FlowingFluid> pFluid, Properties pProperties) {
         super(pFluid, pProperties);
     }
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class FCDDamageTypes {
     public static Map<ResourceKey<DamageType>, DamageType> damageTypeMap = new HashMap<>();
-
+    public static final ResourceKey<DamageType> FRYING = register(new DamageType("frying", 0));
 
     private static ResourceKey<DamageType> register(DamageType damageType) {
         ResourceKey<DamageType> key = ResourceKey.create(Registries.DAMAGE_TYPE, FrycooksDelight.modPrefix(damageType.msgId()));

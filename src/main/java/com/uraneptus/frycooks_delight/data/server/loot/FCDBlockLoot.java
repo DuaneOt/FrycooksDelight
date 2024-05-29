@@ -2,6 +2,9 @@ package com.uraneptus.frycooks_delight.data.server.loot;
 
 import com.uraneptus.frycooks_delight.core.registry.FCDBlocks;
 import com.uraneptus.frycooks_delight.core.registry.FCDItems;
+import net.minecraft.advancements.critereon.EntityEquipmentPredicate;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
@@ -11,6 +14,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
@@ -19,9 +23,12 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.RegistryObject;
+import vectorwing.farmersdelight.common.registry.ModItems;
+import vectorwing.farmersdelight.common.tag.ModTags;
 
 import java.util.Set;
 
@@ -50,8 +57,19 @@ public class FCDBlockLoot extends BlockLootSubProvider {
 
     @Override
     protected LootTable.Builder createCropDrops(Block pCropBlock, Item pGrownCropItem, Item pSeedsItem, LootItemCondition.Builder pDropGrownCropCondition) {
-        return this.applyExplosionDecay(pCropBlock, LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(pGrownCropItem).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))).when(pDropGrownCropCondition).otherwise(LootItem.lootTableItem(pSeedsItem)))).withPool(LootPool.lootPool().add(LootItem.lootTableItem(pSeedsItem)).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))).when(pDropGrownCropCondition)));
-        //TODO add the replace seed with straw when using knife feature
+        return this.applyExplosionDecay(pCropBlock, LootTable.lootTable().withPool(LootPool.lootPool()
+                .add(LootItem.lootTableItem(pGrownCropItem)
+                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
+                        .when(pDropGrownCropCondition).otherwise(LootItem.lootTableItem(pSeedsItem)
+                                .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModTags.KNIVES)).invert())
+                                .otherwise(LootItem.lootTableItem(ModItems.STRAW.get())))
+                ))
+                .withPool(LootPool.lootPool()
+                        .add(LootItem.lootTableItem(pSeedsItem)
+                                .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModTags.KNIVES)).invert())
+                                .otherwise(LootItem.lootTableItem(ModItems.STRAW.get()))
+                        ).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 3.0F))).when(pDropGrownCropCondition)
+                ));
     }
 
     protected LootTable.Builder createWildCropDrops(Block pCropBlock, Item pGrownCropItem, Item pSeedsItem) {
