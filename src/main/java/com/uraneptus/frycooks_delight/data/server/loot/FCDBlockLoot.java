@@ -47,6 +47,7 @@ public class FCDBlockLoot extends BlockLootSubProvider {
     @Override
     protected void generate() {
         this.dropSelf(FCDBlocks.CANOLA_CRATE.get());
+        this.dropSelf(FCDBlocks.LARD_BLOCK.get());
         this.dropSelf(FCDBlocks.CANOLA_PLANT.get());
         this.dropOther(FCDBlocks.CANOLA_OIL_CAULDRON.get(), Blocks.CAULDRON);
 

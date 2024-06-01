@@ -31,6 +31,7 @@ public class FCDRecipeProvider extends RecipeProvider {
         CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.of(FCDBlocks.WILD_CANOLA.get()), Ingredient.of(ForgeTags.TOOLS_KNIVES), FCDItems.CANOLA_SEEDS.get(), 1).addResultWithChance(Items.YELLOW_DYE, 0.5F).build(consumer);
         FryingRecipeBuilder.fryingWithoutCount(RecipeCategory.FOOD, FCDItems.FRIED_POTATO.get()).requires(Items.POTATO).save(consumer);
         FryingRecipeBuilder.fryingWithoutCount(RecipeCategory.FOOD, FCDItems.PLAIN_DONUT.get()).requires(ModItems.WHEAT_DOUGH.get()).save(consumer);
+        packableBlockRecipes(FCDItems.LARD, FCDBlocks.LARD_BLOCK.get().asItem(), consumer);
     }
 
     protected static void packableBlockRecipes(Supplier<? extends ItemLike> unpacked, ItemLike packed, Consumer<FinishedRecipe> consumer) {

@@ -2,7 +2,7 @@
   "variants": {
     "": [
       {
-        "model": "frycooks_delight:block/canola_oil"
+        "model": "frycooks_delight:block/hot_grease"
       }
     ]
   }

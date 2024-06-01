@@ -19,5 +19,6 @@ public class FCDItems {
 
     public static final RegistryObject<Item> FRIED_POTATO = ITEMS.register("fried_potato", () -> new Item(FCDProperties.FRIED_POTATO));
     public static final RegistryObject<Item> PLAIN_DONUT = ITEMS.register("plain_donut", () -> new Item(FCDProperties.PLAIN_DONUT));
-
+    public static final RegistryObject<Item> BURNT_MORSEL = ITEMS.register("burnt_morsel", () -> new Item(FCDProperties.BURNT_MORSEL));
+    public static final RegistryObject<Item> LARD = ITEMS.register("lard", () -> new Item(new Item.Properties()));
 }

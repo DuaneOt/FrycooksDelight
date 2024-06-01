@@ -24,6 +24,9 @@
     "level=1,oil_stage=8": {
       "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_8_level1"
     },
+    "level=1,oil_stage=9": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_9_level1"
+    },
     "level=2,oil_stage=1": {
       "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_1_level2"
     },
@@ -48,6 +51,9 @@
     "level=2,oil_stage=8": {
       "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_8_level2"
     },
+    "level=2,oil_stage=9": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_9_level2"
+    },
     "level=3,oil_stage=1": {
       "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_1_full"
     },
@@ -71,6 +77,9 @@
     },
     "level=3,oil_stage=8": {
       "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_8_full"
+    },
+    "level=3,oil_stage=9": {
+      "model": "frycooks_delight:block/canola_oil_cauldron_oil_stage_9_full"
     }
   }
 }

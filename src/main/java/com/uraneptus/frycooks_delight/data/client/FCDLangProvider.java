@@ -24,6 +24,7 @@ public class FCDLangProvider extends LanguageProvider {
         FCDItems.ITEMS.getEntries().forEach(this::forItem);
         FCDTextUtil.TRANSLATABLES.forEach(this::add);
         forBlock(FCDBlocks.CANOLA_PLANT);
+        add("death.attack.frying", "%1$s was fried to a delicious crisp");
     }
 
     protected void forItem(Supplier<? extends Item> item) {

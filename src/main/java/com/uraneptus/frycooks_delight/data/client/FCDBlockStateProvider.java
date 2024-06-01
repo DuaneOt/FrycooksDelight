@@ -28,10 +28,12 @@ public class FCDBlockStateProvider extends BlockStateProvider {
         stageCropBlock(FCDBlocks.CANOLA_PLANT);
         wildCropBlock(FCDBlocks.WILD_CANOLA);
         canolaCauldronBlock(FCDBlocks.CANOLA_OIL_CAULDRON);
+        basicBlock(FCDBlocks.LARD_BLOCK);
     }
 
     private void basicBlock(Supplier<? extends Block> block) {
         simpleBlock(block.get());
+        this.simpleBlockItem(block.get(), new ModelFile.ExistingModelFile(blockTexture(block.get()), this.models().existingFileHelper));
     }
 
     public void crateBlock(Supplier<? extends Block> block, String cropName) {
@@ -78,10 +80,11 @@ public class FCDBlockStateProvider extends BlockStateProvider {
             String oilStageSuffix = "_oil_stage_" + oil_stage;
             String modelName = name(block.get()) + oilStageSuffix + levelSuffix;
             ResourceLocation cauldronLoc = vanillaBlockLocation(name(Blocks.CAULDRON));
+            ResourceLocation contentTexture = oil_stage == 9 ? modBlockLocation("lard_block") : modBlockLocation("canola_oil" + oil_stage);
 
             ModelFile file = models().withExistingParent(modelName, vanillaBlockLocation(templatePath))
                     .texture("bottom", cauldronLoc + "_bottom")
-                    .texture("content", modBlockLocation("canola_oil" + oil_stage))
+                    .texture("content", contentTexture)
                     .texture("inside", cauldronLoc + "_inner")
                     .texture("particle", cauldronLoc + "_side")
                     .texture("side", cauldronLoc + "_side")

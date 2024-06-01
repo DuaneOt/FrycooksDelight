@@ -27,6 +27,7 @@ public class FCDBlocks {
     public static final RegistryObject<Block> WILD_CANOLA = registerWithBlockItem("wild_canola", () -> new WildCropBlock(MobEffects.MOVEMENT_SPEED, 6,  FCDProperties.WILD_CANOLA)); //TODO make compostable
     public static final RegistryObject<LiquidBlock> HOT_GREASE = registerWithoutItem("hot_grease", () -> new HotGreaseFluidBlock(FCDFluids.HOT_GREASE_SOURCE, FCDProperties.HOT_GREASE));
     public static final RegistryObject<Block> CANOLA_OIL_CAULDRON = registerWithoutItem("canola_oil_cauldron", () -> new CanolaOilCauldronBlock(FCDProperties.CANOLA_OIL_CAULDRON));
+    public static final RegistryObject<Block> LARD_BLOCK = registerWithBlockItem("lard_block", () -> new Block(FCDProperties.LARD_BLOCK));
 
     public static <T extends Block> RegistryObject<T> registerWithBlockItem(String name, Supplier<T> blockSupplier) {
         RegistryObject<T> blockObj = BLOCKS.register(name, blockSupplier);

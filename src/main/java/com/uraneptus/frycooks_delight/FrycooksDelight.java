@@ -11,16 +11,20 @@ import com.uraneptus.frycooks_delight.data.server.advancements.FCDAdvancementPro
 import com.uraneptus.frycooks_delight.data.server.loot.FCDLootTableProvider;
 import com.uraneptus.frycooks_delight.data.server.tags.FCDBiomeTagsProvider;
 import com.uraneptus.frycooks_delight.data.server.tags.FCDBlockTagsProvider;
+import com.uraneptus.frycooks_delight.data.server.tags.FCDFluidTagsProvider;
 import com.uraneptus.frycooks_delight.data.server.tags.FCDItemTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidInteractionRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -44,6 +48,7 @@ public class FrycooksDelight {
         FCDCreativeTabs.TABS.register(bus);
         FCDRecipes.RECIPE_TYPES.register(bus);
         FCDRecipes.SERIALIZERS.register(bus);
+        FCDParticleTypes.PARTICLES.register(bus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -53,9 +58,11 @@ public class FrycooksDelight {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-
-        });
+        event.enqueueWork(() -> FluidInteractionRegistry.addInteraction(FCDFluids.HOT_GREASE_FLUID_TYPE.get(),
+                new FluidInteractionRegistry.InteractionInformation(
+                ForgeMod.WATER_TYPE.get(),
+                fluidState -> FCDBlocks.LARD_BLOCK.get().defaultBlockState()
+        )));
     }
 
     @SubscribeEvent
@@ -76,6 +83,7 @@ public class FrycooksDelight {
         generator.addProvider(includeServer, blockTagProvider);
         generator.addProvider(includeServer, new FCDItemTagsProvider(packOutput, lookupProvider, blockTagProvider.contentsGetter(), fileHelper));
         generator.addProvider(includeServer, new FCDBiomeTagsProvider(packOutput, lookupProvider, fileHelper));
+        generator.addProvider(includeServer, new FCDFluidTagsProvider(packOutput, lookupProvider, fileHelper));
         generator.addProvider(includeServer, new FCDLootTableProvider(packOutput));
         generator.addProvider(includeServer, new FCDAdvancementProvider(packOutput, lookupProvider, fileHelper));
         generator.addProvider(includeServer, new FCDRecipeProvider(packOutput));

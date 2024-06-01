@@ -1,5 +1,6 @@
 package com.uraneptus.frycooks_delight.common.blocks;
 
+import com.uraneptus.frycooks_delight.client.OilBubbleOptions;
 import com.uraneptus.frycooks_delight.common.recipe.FryingRecipe;
 import com.uraneptus.frycooks_delight.core.other.tags.FCDBlockTags;
 import com.uraneptus.frycooks_delight.core.registry.FCDBlocks;
@@ -10,6 +11,7 @@ import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -17,6 +19,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -30,15 +33,17 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
 public class CanolaOilCauldronBlock extends LayeredCauldronBlock {
-    public static final IntegerProperty OIL_STAGE = IntegerProperty.create("oil_stage", 1, 8);
+    public static final IntegerProperty OIL_STAGE = IntegerProperty.create("oil_stage", 1, 9);
     private final Predicate<BlockState> HEATING_BLOCKS = (blockstate) -> blockstate.is(FCDBlockTags.FRY_HEAT_SOURCES)
             || (blockstate.getBlock() instanceof CampfireBlock campfireBlock && campfireBlock.defaultBlockState().getValue(CampfireBlock.LIT));
 
@@ -52,7 +57,7 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
 
         if (itemstack.is(Items.GLASS_BOTTLE)) {
-            if (pState.getValue(CanolaOilCauldronBlock.OIL_STAGE) != 8) {
+            if (pState.getValue(CanolaOilCauldronBlock.OIL_STAGE) < 8) {
                 int currentLevel = pState.getValue(CanolaOilCauldronBlock.LEVEL);
                 if (currentLevel > 1) {
                     pLevel.setBlock(pPos, pState.setValue(CanolaOilCauldronBlock.LEVEL, currentLevel - 1), Block.UPDATE_ALL);
@@ -76,6 +81,10 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock {
                 pLevel.setBlock(pPos, Blocks.CAULDRON.defaultBlockState(), Block.UPDATE_ALL);
                 return InteractionResult.sidedSuccess(pLevel.isClientSide);
             }
+        } else if (itemstack.isEmpty() && pState.getValue(OIL_STAGE) == 9) {
+            pPlayer.addItem(FCDBlocks.LARD_BLOCK.get().asItem().getDefaultInstance());
+            pLevel.setBlock(pPos, Blocks.CAULDRON.defaultBlockState(), Block.UPDATE_ALL);
+            return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
         return InteractionResult.PASS;
     }
@@ -90,14 +99,29 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock {
     }
 
     @Override
+    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
+        if (isBoiling(pState, pLevel, pPos) && pState.getValue(OIL_STAGE) <= 8) {
+            int color = pState.getValue(OIL_STAGE) < 8 ? 12955730 : 5848363;
+
+            for (int i = 0; i < 2; i++) {
+                double xPos = pPos.getX() + 0.125 + 0.75 * pRandom.nextFloat();
+                double yPos = pPos.getY() + 0.9375F;
+                double zPos = pPos.getZ() + 0.125 + 0.75 * pRandom.nextFloat();
+                pLevel.addParticle(new OilBubbleOptions(Vec3.fromRGB24(color).toVector3f()), xPos, yPos, zPos, 0.0F, 0.02, 0.0F);
+            }
+        }
+    }
+
+    @Override
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pos, RandomSource random) {
-        if (isBoiling(pState, pLevel, pos)) {
-            if (random.nextInt(10) == 0 && pState.getValue(OIL_STAGE) < 8) {
+        if (pState.getValue(OIL_STAGE) < 8) {
+            if (isBoiling(pState, pLevel, pos) && random.nextInt(10) == 0) {
                 BlockState state = pState.setValue(OIL_STAGE, pState.getValue(OIL_STAGE) + 1);
                 pLevel.setBlock(pos, state, Block.UPDATE_ALL);
             }
-        } else {
-            //TODO add transformation to lard here
+        } else if (pState.getValue(OIL_STAGE) == 8 && !HEATING_BLOCKS.test(pLevel.getBlockState(pos.below())) && !pLevel.dimensionType().ultraWarm()) {
+            BlockState state = pState.setValue(OIL_STAGE, 9);
+            pLevel.setBlock(pos, state, Block.UPDATE_ALL);
         }
     }
 
@@ -105,6 +129,12 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock {
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
         if (isBoiling(pState, pLevel, pPos)) {
             if (pEntity instanceof ItemEntity itemEntity) {
+                if (itemEntity.getItem().getItem() instanceof BlockItem blockItem && blockItem.getBlock().defaultBlockState().is(BlockTags.ICE)) {
+                    pLevel.setBlock(pPos.above(), FCDBlocks.HOT_GREASE.get().defaultBlockState(), Block.UPDATE_ALL);
+                    pLevel.setBlock(pPos, Blocks.CAULDRON.defaultBlockState(), Block.UPDATE_ALL);
+                    itemEntity.discard();
+                }
+
                 ArrayList<FryingRecipe> recipes = new ArrayList<>(FryingRecipe.getRecipes(pLevel));
                 for (FryingRecipe recipe : recipes) {
                     for (ItemStack ingredient : recipe.getIngredients().iterator().next().getItems()) {
@@ -114,7 +144,7 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock {
                             resultItem.setCount(itemEntity.getItem().getCount());
                             itemEntity.discard();
                             if (pState.getValue(OIL_STAGE) == 8) {
-                                ItemStack burntNugget = Items.COAL.getDefaultInstance();
+                                ItemStack burntNugget = FCDItems.BURNT_MORSEL.get().getDefaultInstance();
                                 burntNugget.setCount(itemEntity.getItem().getCount());
                                 resultItemEntity = new ItemEntity(pLevel, pPos.getX() + 0.5, pPos.getY() + 1, pPos.getZ() + 0.5, burntNugget);
                             } else {

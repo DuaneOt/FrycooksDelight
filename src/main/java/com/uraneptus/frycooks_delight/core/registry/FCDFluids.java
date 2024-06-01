@@ -1,6 +1,7 @@
 package com.uraneptus.frycooks_delight.core.registry;
 
 import com.uraneptus.frycooks_delight.FrycooksDelight;
+import com.uraneptus.frycooks_delight.common.fluid.HotGreaseFluid;
 import com.uraneptus.frycooks_delight.common.fluid.HotGreaseFluidType;
 import com.uraneptus.frycooks_delight.core.other.FCDProperties;
 import net.minecraft.world.level.material.FlowingFluid;
@@ -17,6 +18,6 @@ public class FCDFluids {
 
     public static final RegistryObject<FluidType> HOT_GREASE_FLUID_TYPE = FLUID_TYPES.register("hot_grease", HotGreaseFluidType::new);
 
-    public static final RegistryObject<FlowingFluid> HOT_GREASE_SOURCE = FLUIDS.register("hot_grease", () -> new ForgeFlowingFluid.Source(FCDProperties.HOT_GREASE_FLUID));
-    public static final RegistryObject<FlowingFluid> HOT_GREASE_FLOWING = FLUIDS.register("hot_grease_flowing", () -> new ForgeFlowingFluid.Flowing(FCDProperties.HOT_GREASE_FLUID));
+    public static final RegistryObject<FlowingFluid> HOT_GREASE_SOURCE = FLUIDS.register("hot_grease", () -> new HotGreaseFluid.Source(FCDProperties.HOT_GREASE_FLUID));
+    public static final RegistryObject<FlowingFluid> HOT_GREASE_FLOWING = FLUIDS.register("hot_grease_flowing", () -> new HotGreaseFluid.Flowing(FCDProperties.HOT_GREASE_FLUID));
 }

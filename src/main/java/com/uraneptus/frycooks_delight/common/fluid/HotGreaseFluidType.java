@@ -31,15 +31,11 @@ public class HotGreaseFluidType extends FluidType {
                 .canDrown(false)
                 .density(3000)
                 .viscosity(6000)
-                .temperature(2000)
+                .temperature(9000)
+                .motionScale(0.000233D)
                 .pathType(BlockPathTypes.LAVA)
                 .adjacentPathType(null)
         );
-    }
-
-    @Override
-    public double motionScale(Entity entity) {
-        return 0.0023333333333333335D;
     }
 
     @Override
@@ -84,8 +80,8 @@ public class HotGreaseFluidType extends FluidType {
 
             @Override
             public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance, float partialTick, float nearDistance, float farDistance, FogShape shape) {
-                RenderSystem.setShaderFogStart(1F);
-                RenderSystem.setShaderFogEnd(2F);
+                RenderSystem.setShaderFogStart(0.5F);
+                RenderSystem.setShaderFogEnd(1F);
             }
         });
     }
