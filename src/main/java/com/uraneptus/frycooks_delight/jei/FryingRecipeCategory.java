@@ -58,7 +58,6 @@ public class FryingRecipeCategory implements IRecipeCategory<FryingRecipe> {
     @Override
     public void draw(FryingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         guiGraphics.renderItem(new ItemStack(FCDBlocks.CANOLA_OIL_CAULDRON.get()), 0, 23);
-        guiGraphics.renderItem(new ItemStack(Items.CAMPFIRE), 0, 40);
     }
 
 }
