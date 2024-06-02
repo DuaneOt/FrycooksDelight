@@ -1,5 +1,6 @@
 package com.uraneptus.frycooks_delight;
 
+import com.uraneptus.frycooks_delight.core.other.FCDTextUtil;
 import com.uraneptus.frycooks_delight.core.registry.*;
 import com.uraneptus.frycooks_delight.data.client.FCDBlockStateProvider;
 import com.uraneptus.frycooks_delight.data.client.FCDItemModelProvider;
@@ -41,6 +42,7 @@ public class FrycooksDelight {
         bus.addListener(this::setup);
         bus.addListener(this::gatherData);
 
+        FCDTextUtil.init();
         FCDBlocks.BLOCKS.register(bus);
         FCDItems.ITEMS.register(bus);
         FCDFluids.FLUID_TYPES.register(bus);

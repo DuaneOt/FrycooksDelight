@@ -6,11 +6,9 @@ import com.uraneptus.frycooks_delight.core.registry.FCDBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
@@ -76,13 +74,13 @@ public class FCDBlockStateProvider extends BlockStateProvider {
                 default -> "";
             };
 
-            String templatePath = "template_cauldron" + levelSuffix;
+            ResourceLocation templateLoc = level == 3 ? modBlockLocation("fcd_template_cauldron_full") : vanillaBlockLocation("template_cauldron" + levelSuffix);
             String oilStageSuffix = "_oil_stage_" + oil_stage;
             String modelName = name(block.get()) + oilStageSuffix + levelSuffix;
             ResourceLocation cauldronLoc = vanillaBlockLocation(name(Blocks.CAULDRON));
             ResourceLocation contentTexture = oil_stage == 9 ? modBlockLocation("lard_block") : modBlockLocation("canola_oil" + oil_stage);
 
-            ModelFile file = models().withExistingParent(modelName, vanillaBlockLocation(templatePath))
+            ModelFile file = models().withExistingParent(modelName, templateLoc)
                     .texture("bottom", cauldronLoc + "_bottom")
                     .texture("content", contentTexture)
                     .texture("inside", cauldronLoc + "_inner")
@@ -92,5 +90,6 @@ public class FCDBlockStateProvider extends BlockStateProvider {
 
             return ConfiguredModel.builder().modelFile(file).build();
         });
+        this.simpleBlockItem(block.get(), new ModelFile.ExistingModelFile(FrycooksDelight.modPrefix(ModelProvider.BLOCK_FOLDER + "/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath() + "_oil_stage_1_full"), this.models().existingFileHelper));
     }
 }

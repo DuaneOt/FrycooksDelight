@@ -12,7 +12,6 @@ import java.util.function.Supplier;
 
 import static com.uraneptus.frycooks_delight.data.FCDDatagenUtil.*;
 
-@SuppressWarnings({"unused", "SameParameterValue"})
 public class FCDItemModelProvider extends ItemModelProvider {
 
     public FCDItemModelProvider(PackOutput packOutput, ExistingFileHelper existingFileHelper) {
