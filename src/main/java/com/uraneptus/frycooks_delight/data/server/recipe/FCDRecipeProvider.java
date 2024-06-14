@@ -35,9 +35,9 @@ public class FCDRecipeProvider extends RecipeProvider {
     }
 
     protected static void packableBlockRecipes(Supplier<? extends ItemLike> unpacked, ItemLike packed, Consumer<FinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, packed).define('#', unpacked.get()).pattern("###").pattern("###").pattern("###")
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, packed).define('#', unpacked.get()).pattern("## ").pattern("## ")
                 .unlockedBy(getHasName(unpacked.get()), has(unpacked.get())).save(consumer);
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, unpacked.get(), 9).requires(packed)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, unpacked.get(), 4).requires(packed)
                 .unlockedBy(getHasName(packed), has(packed)).save(consumer);
     }
 }

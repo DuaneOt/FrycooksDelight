@@ -1,8 +1,12 @@
 package com.uraneptus.frycooks_delight.common.fluid;
 
+import com.uraneptus.frycooks_delight.client.OilBubbleOptions;
 import com.uraneptus.frycooks_delight.core.other.tags.FCDFluidTags;
 import com.uraneptus.frycooks_delight.core.registry.FCDFluids;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
@@ -17,18 +21,14 @@ public abstract class HotGreaseFluid extends ForgeFlowingFluid {
     }
 
     @Override
-    public int getSlopeFindDistance(LevelReader world) {
-        return 2;
-    }
+    protected void animateTick(Level pLevel, BlockPos pPos, FluidState pState, RandomSource pRandom) {
 
-    @Override
-    public int getDropOff(LevelReader world) {
-        return 2;
-    }
-
-    @Override
-    public int getTickDelay(LevelReader world) {
-        return 30;
+        for (int i = 0; i < 2; i++) {
+            double xPos = pPos.getX() + 0.125 + 0.75 * pRandom.nextFloat();
+            double yPos = pPos.getY() + this.getHeight(pState, pLevel, pPos);
+            double zPos = pPos.getZ() + 0.125 + 0.75 * pRandom.nextFloat();
+            pLevel.addParticle(new OilBubbleOptions(Vec3.fromRGB24(5848363).toVector3f()), xPos, yPos, zPos, 0.0F, 0.02, 0.0F);
+        }
     }
 
     @Override

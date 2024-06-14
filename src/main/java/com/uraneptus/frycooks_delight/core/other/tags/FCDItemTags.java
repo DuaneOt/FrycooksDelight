@@ -13,5 +13,6 @@ public class FCDItemTags {
     public static final TagKey<Item> OIL_DESTROYS = TagKey.create(Registries.ITEM, FrycooksDelight.modPrefix("oil_destroys"));
     public static final TagKey<Item> BURNS_TO_MORSEL = TagKey.create(Registries.ITEM, FrycooksDelight.modPrefix("burns_to_morsel"));
     public static final TagKey<Item> CAUSE_OIL_OVERFLOW = TagKey.create(Registries.ITEM, FrycooksDelight.modPrefix("cause_oil_overflow"));
+    public static final TagKey<Item> IS_FRIED = TagKey.create(Registries.ITEM, FrycooksDelight.modPrefix("is_fried"));
 
 }

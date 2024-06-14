@@ -33,6 +33,10 @@ public class FCDItemTagsProvider extends ItemTagsProvider {
         tag(FCDItemTags.CANOLA_CROPS).add(FCDItems.CANOLA.get());
         tag(Tags.Items.CROPS).addTag(FCDItemTags.CANOLA_CROPS);
         tag(ItemTags.SMALL_FLOWERS).add(FCDBlocks.WILD_CANOLA.get().asItem());
+        tag(FCDItemTags.IS_FRIED).add(
+                FCDItems.FRIED_POTATO.get(),
+                FCDItems.PLAIN_DONUT.get()
+        );
 
         tag(FCDItemTags.CAUSE_OIL_OVERFLOW).add(
                 Items.ICE,

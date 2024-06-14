@@ -5,11 +5,16 @@ import com.uraneptus.frycooks_delight.common.blocks.CanolaOilCauldronBlock;
 import com.uraneptus.frycooks_delight.common.blocks.HotGreaseFluidBlock;
 import com.uraneptus.frycooks_delight.common.blocks.CanolaPlantBlock;
 import com.uraneptus.frycooks_delight.core.other.FCDProperties;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -27,7 +32,12 @@ public class FCDBlocks {
     public static final RegistryObject<Block> WILD_CANOLA = registerWithBlockItem("wild_canola", () -> new WildCropBlock(MobEffects.MOVEMENT_SPEED, 6,  FCDProperties.WILD_CANOLA)); //TODO make compostable
     public static final RegistryObject<LiquidBlock> HOT_GREASE = registerWithoutItem("hot_grease", () -> new HotGreaseFluidBlock(FCDFluids.HOT_GREASE_SOURCE, FCDProperties.HOT_GREASE));
     public static final RegistryObject<Block> CANOLA_OIL_CAULDRON = registerWithBlockItem("canola_oil_cauldron", () -> new CanolaOilCauldronBlock(FCDProperties.CANOLA_OIL_CAULDRON));
-    public static final RegistryObject<Block> LARD_BLOCK = registerWithBlockItem("lard_block", () -> new Block(FCDProperties.LARD_BLOCK));
+    public static final RegistryObject<Block> LARD_BLOCK = registerWithBlockItem("lard_block", () -> new Block(FCDProperties.LARD_BLOCK) {
+        @Override
+        public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+            return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D);
+        }
+    });
 
     public static <T extends Block> RegistryObject<T> registerWithBlockItem(String name, Supplier<T> blockSupplier) {
         RegistryObject<T> blockObj = BLOCKS.register(name, blockSupplier);
