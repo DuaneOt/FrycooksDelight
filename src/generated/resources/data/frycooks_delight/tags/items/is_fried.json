@@ -1,9 +1,9 @@
 {
   "values": [
     "frycooks_delight:fried_potato",
-    "frycooks_delight:plain_donut",
     "frycooks_delight:fried_onion_ring",
     "frycooks_delight:fried_chicken_leg",
-    "frycooks_delight:fried_fish_slice"
+    "frycooks_delight:fried_fish_slice",
+    "frycooks_delight:plain_donut"
   ]
 }

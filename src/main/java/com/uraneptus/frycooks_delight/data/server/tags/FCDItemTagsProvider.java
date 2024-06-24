@@ -33,7 +33,14 @@ public class FCDItemTagsProvider extends ItemTagsProvider {
         tag(FCDItemTags.CANOLA_CROPS).add(FCDItems.CANOLA.get());
         tag(Tags.Items.CROPS).addTag(FCDItemTags.CANOLA_CROPS);
         tag(ItemTags.SMALL_FLOWERS).add(FCDBlocks.WILD_CANOLA.get().asItem());
-        FCDItems.FRIED_FOODS.forEach(obj -> tag(FCDItemTags.IS_FRIED).add(obj.get()));
+
+        tag(FCDItemTags.IS_FRIED).add(
+                FCDItems.FRIED_POTATO.get(),
+                FCDItems.FRIED_ONION_RING.get(),
+                FCDItems.FRIED_CHICKEN_LEG.get(),
+                FCDItems.FRIED_FISH_SLICE.get(),
+                FCDItems.PLAIN_DONUT.get()
+        );
 
         tag(FCDItemTags.HAS_FISH_SLICE).add(
                 Items.COD,
