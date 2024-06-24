@@ -1,6 +1,7 @@
 package com.uraneptus.frycooks_delight.common.recipe;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.uraneptus.frycooks_delight.core.registry.FCDRecipes;
@@ -15,7 +16,9 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
+import vectorwing.farmersdelight.common.crafting.ingredient.ChanceResult;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class FryingRecipe implements Recipe<Container> {
@@ -23,13 +26,13 @@ public class FryingRecipe implements Recipe<Container> {
     private final ResourceLocation id;
     private final String recipeGroup;
     private final NonNullList<Ingredient> ingredients;
-    public final ItemStack result;
+    private final NonNullList<ItemStack> results;
 
-    public FryingRecipe(ResourceLocation id, String recipeGroup, NonNullList<Ingredient> pIngredients, ItemStack result) {
+    public FryingRecipe(ResourceLocation id, String recipeGroup, NonNullList<Ingredient> pIngredients, NonNullList<ItemStack> results) {
         this.id = id;
         this.recipeGroup = recipeGroup;
         this.ingredients = pIngredients;
-        this.result = result;
+        this.results = results;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class FryingRecipe implements Recipe<Container> {
 
     @Override
     public ItemStack assemble(Container pContainer, RegistryAccess pRegistryAccess) {
-        return this.result.copy();
+        return this.results.get(0);
     }
 
     @Override
@@ -54,11 +57,11 @@ public class FryingRecipe implements Recipe<Container> {
 
     @Override
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        return result;
+        return this.results.get(0);
     }
 
-    public int getResultCount() {
-        return this.result.getCount();
+    public List<ItemStack> getResults() {
+        return this.results;
     }
 
     @Override
@@ -91,25 +94,33 @@ public class FryingRecipe implements Recipe<Container> {
         public FryingRecipe fromJson(ResourceLocation pRecipeId, JsonObject jsonObject) {
             String group = GsonHelper.getAsString(jsonObject, "group", "");
 
-            NonNullList<Ingredient> nonnulllist = itemsFromJson(GsonHelper.getAsJsonArray(jsonObject, "ingredients"));
+            NonNullList<Ingredient> nonnulllist = readIngredients(GsonHelper.getAsJsonArray(jsonObject, "ingredients"));
             if (nonnulllist.isEmpty()) {
                 throw new JsonParseException("No ingredients for polishing recipe");
             }
             if (!jsonObject.has("result")) throw new com.google.gson.JsonSyntaxException("Missing result, expected to find a string or object");
-            ItemStack result;
-            if (jsonObject.get("result").isJsonObject()) {
-                result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "result"));
-            }
-            else {
-                String resultItem = GsonHelper.getAsString(jsonObject, "result");
-                ResourceLocation resourcelocation = new ResourceLocation(resultItem);
-                result = new ItemStack(ForgeRegistries.ITEMS.getDelegate(resourcelocation).orElseThrow(() -> new IllegalStateException("Item: " + resultItem + " does not exist")));
-            }
+            NonNullList<ItemStack> results = readResults(GsonHelper.getAsJsonArray(jsonObject, "result"));
 
-            return new FryingRecipe(pRecipeId, group, nonnulllist, result);
+            return new FryingRecipe(pRecipeId, group, nonnulllist, results);
         }
 
-        private static NonNullList<Ingredient> itemsFromJson(JsonArray pIngredientArray) {
+        private static NonNullList<ItemStack> readResults(JsonArray resultArray) {
+            NonNullList<ItemStack> results = NonNullList.create();
+            for (JsonElement element : resultArray) {
+                JsonObject json = element.getAsJsonObject();
+                if (json.get("item").isJsonObject()) {
+                    results.add(ShapedRecipe.itemStackFromJson(json));
+                } else {
+                    String resultItem = GsonHelper.getAsString(json, "item");
+                    int count = GsonHelper.getAsInt(json, "count", 1);
+                    results.add(new ItemStack(ForgeRegistries.ITEMS.getDelegate(new ResourceLocation(resultItem)).orElseThrow(() -> new IllegalStateException("Item: " + resultItem + " does not exist")), count));
+                }
+            }
+
+            return results;
+        }
+
+        private static NonNullList<Ingredient> readIngredients(JsonArray pIngredientArray) {
             NonNullList<Ingredient> nonnulllist = NonNullList.create();
             int ingredientSize = pIngredientArray.size();
             for(int i = 0; i < ingredientSize; ++i) {
@@ -118,7 +129,6 @@ public class FryingRecipe implements Recipe<Container> {
                     nonnulllist.add(ingredient);
                 }
             }
-
             return nonnulllist;
         }
 
@@ -126,13 +136,17 @@ public class FryingRecipe implements Recipe<Container> {
         @Override
         public FryingRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             String group = pBuffer.readUtf();
-            int i = pBuffer.readVarInt();
-            NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i, Ingredient.EMPTY);
-            for (int j = 0; j < i; j++) {
+            int ingredientsAmount = pBuffer.readVarInt();
+            NonNullList<Ingredient> nonnulllist = NonNullList.withSize(ingredientsAmount, Ingredient.EMPTY);
+            for (int j = 0; j < ingredientsAmount; j++) {
                 nonnulllist.set(j, Ingredient.fromNetwork(pBuffer));
             }
-            ItemStack result = pBuffer.readItem();
-            return new FryingRecipe(pRecipeId, group, nonnulllist, result);
+            int resultsAmount = pBuffer.readVarInt();
+            NonNullList<ItemStack> results = NonNullList.withSize(resultsAmount, ItemStack.EMPTY);
+            for (int j = 0; j < resultsAmount; j++) {
+                results.set(j, pBuffer.readItem());
+            }
+            return new FryingRecipe(pRecipeId, group, nonnulllist, results);
         }
 
         @Override
@@ -142,7 +156,10 @@ public class FryingRecipe implements Recipe<Container> {
             for(Ingredient ingredient : pRecipe.ingredients) {
                 ingredient.toNetwork(pBuffer);
             }
-            pBuffer.writeItem(pRecipe.result);
+            pBuffer.writeVarInt(pRecipe.results.size());
+            for (ItemStack itemStack : pRecipe.results) {
+                pBuffer.writeItem(itemStack);
+            }
         }
     }
 }

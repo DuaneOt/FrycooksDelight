@@ -37,6 +37,7 @@ import vectorwing.farmersdelight.common.registry.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class CanolaOilCauldronBlock extends LayeredCauldronBlock implements WorldlyContainerHolder {
@@ -144,11 +145,27 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock implements Worl
                         for (ItemStack ingredient : recipe.getIngredients().iterator().next().getItems()) {
                             if (itemstack.is(ingredient.getItem())) {
                                 recipeFlag = true;
-                                ItemStack resultItem = recipe.result;
-                                resultItem.setCount(itemEntity.getItem().getCount());
-                                itemEntity.discard();
-                                finishFrying(resultItem, pLevel, pPos, 1.0F);
-                                randomStageIncrease(resultItem, pLevel, pState, pPos);
+                                List<ItemStack> results = recipe.getResults();
+                                int resultsAmount = results.size();
+                                for (int i = 0; i < itemEntity.getItem().getCount(); i++) {
+                                    ItemStack resultItem;
+                                    if (resultsAmount > 1) {
+                                        for (int j = 0; j <= results.size(); j++) {
+                                            resultItem = results.get(j);
+                                            //resultItem.setCount(results.get(j).getCount());
+                                            itemEntity.discard();
+                                            finishFrying(resultItem, pLevel, pPos, 1.0F);
+                                            randomStageIncrease(resultItem, pLevel, pState, pPos);
+                                        }
+                                    } else {
+                                        resultItem = results.get(0);
+                                        itemEntity.discard();
+                                        finishFrying(resultItem, pLevel, pPos, 1.0F);
+                                        randomStageIncrease(resultItem, pLevel, pState, pPos);
+                                    }
+
+                                }
+
                             }
                         }
                     }

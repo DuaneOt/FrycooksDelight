@@ -56,10 +56,9 @@ public class FCDBlockStateProvider extends BlockStateProvider {
     }
 
     public void wildCropBlock(Supplier<? extends Block> block) {
-        this.simpleBlock(block.get(), this.models().cross(name(block.get()), modBlockLocation("canola_plant7")).renderType("cutout"));
+        this.simpleBlock(block.get(), this.models().cross(name(block.get()), modBlockLocation(name(block.get()))).renderType("cutout"));
         itemModels().getBuilder(name(block.get())).parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", modBlockLocation("canola_plant7")); //TODO use name(block.get()) later
-        //this.simpleBlock(block.get(), this.models().cross(name(block.get()), modBlockLocation(name(block.get()))).renderType("cutout")); //TODO use this when custom texture is here
+                .texture("layer0", modBlockLocation(name(block.get())));
     }
 
     public void canolaCauldronBlock(Supplier<? extends Block> block) {

@@ -6,12 +6,12 @@ import com.google.gson.JsonObject;
 import com.uraneptus.frycooks_delight.FrycooksDelight;
 import com.uraneptus.frycooks_delight.core.registry.FCDRecipes;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
@@ -19,6 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -26,30 +27,31 @@ import java.util.function.Consumer;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class FryingRecipeBuilder {
-    private final RecipeCategory category;
     private final List<Ingredient> ingredients = Lists.newArrayList();
-    private final Item result;
-    private final int count;
+    private final List<ItemStack> results = new ArrayList<>();
     private final RecipeSerializer<?> serializer;
     private String recipeGroup;
 
-    private FryingRecipeBuilder(RecipeCategory pCategory, ItemLike result, int count, RecipeSerializer<?> serializer) {
-        this.category = pCategory;
-        this.result = result.asItem();
-        this.count = count;
+    private FryingRecipeBuilder(Item primaryItem, int count, RecipeSerializer<?> serializer) {
+        this.results.add(0, new ItemStack(primaryItem, count));
         this.serializer = serializer;
     }
 
-    public static FryingRecipeBuilder frying(RecipeCategory pCategory, ItemLike result) {
-        return frying(pCategory, result, 1);
+    public static FryingRecipeBuilder frying(Item primaryItem) {
+        return frying(primaryItem, 1);
     }
 
-    public static FryingRecipeBuilder fryingWithoutCount(RecipeCategory pCategory, ItemLike result) {
-        return frying(pCategory, result, 1);
+    public static FryingRecipeBuilder frying(Item primaryItem, int count) {
+        return new FryingRecipeBuilder(primaryItem, count, FCDRecipes.FRYING_SERIALIZER.get());
     }
 
-    public static FryingRecipeBuilder frying(RecipeCategory pCategory, ItemLike result, int count) {
-        return new FryingRecipeBuilder(pCategory, result, count, FCDRecipes.FRYING_SERIALIZER.get());
+    public FryingRecipeBuilder extraResult(ItemLike item) {
+        return extraResult(item, 1);
+    }
+
+    public FryingRecipeBuilder extraResult(ItemLike item, int count) {
+        this.results.add(new ItemStack(item, count));
+        return this;
     }
 
     public FryingRecipeBuilder requires(TagKey<Item> pTag) {
@@ -88,9 +90,9 @@ public class FryingRecipeBuilder {
     }
 
     public void save(Consumer<FinishedRecipe> consumer, String suffix) {
-        ResourceLocation resultLocation = ForgeRegistries.ITEMS.getKey(this.result);
+        ResourceLocation resultLocation = ForgeRegistries.ITEMS.getKey(this.results.get(0).getItem());
         if (resultLocation != null) {
-            consumer.accept(new FryingRecipeBuilder.Result(FrycooksDelight.modPrefix("frying/" + resultLocation.getPath() + suffix), this.serializer, this.recipeGroup == null ? "" : this.recipeGroup, this.ingredients, this.result, this.count));
+            consumer.accept(new FryingRecipeBuilder.Result(FrycooksDelight.modPrefix("frying/" + resultLocation.getPath() + suffix), this.serializer, this.recipeGroup == null ? "" : this.recipeGroup, this.ingredients, this.results));
         }
     }
 
@@ -99,16 +101,14 @@ public class FryingRecipeBuilder {
         private final RecipeSerializer<?> serializer;
         private final String group;
         private final List<Ingredient> ingredients;
-        private final Item result;
-        private final int count;
+        private final List<ItemStack> results;
 
-        public Result(ResourceLocation pId, RecipeSerializer<?> serializer, String pGroup, List<Ingredient> pIngredients, Item pResult, int count) {
+        public Result(ResourceLocation pId, RecipeSerializer<?> serializer, String pGroup, List<Ingredient> pIngredients, List<ItemStack> pResults) {
             this.id = pId;
             this.serializer = serializer;
             this.group = pGroup;
             this.ingredients = pIngredients;
-            this.result = pResult;
-            this.count = count;
+            this.results = pResults;
         }
 
         @Override
@@ -122,12 +122,18 @@ public class FryingRecipeBuilder {
                 jsonarray.add(ingredient.toJson());
             }
             pJson.add("ingredients", jsonarray);
-            JsonObject jsonobject = new JsonObject();
-            jsonobject.addProperty("item", BuiltInRegistries.ITEM.getKey(this.result).toString());
-            if (this.count > 1) {
-                jsonobject.addProperty("count", this.count);
+
+            JsonArray resultsArray = new JsonArray();
+            for (ItemStack stack : this.results) {
+                JsonObject obj = new JsonObject();
+                obj.addProperty("item", ForgeRegistries.ITEMS.getKey(stack.getItem()).toString());
+                if (stack.getCount() > 1) {
+                    obj.addProperty("count", stack.getCount());
+                }
+                resultsArray.add(obj);
             }
-            pJson.add("result", jsonobject);
+            pJson.add("result", resultsArray);
+
         }
 
         @Override

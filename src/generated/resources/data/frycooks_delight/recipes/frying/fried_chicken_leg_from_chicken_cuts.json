@@ -2,12 +2,12 @@
   "type": "frycooks_delight:frying",
   "ingredients": [
     {
-      "item": "farmersdelight:wheat_dough"
+      "item": "farmersdelight:chicken_cuts"
     }
   ],
   "result": [
     {
-      "item": "frycooks_delight:plain_donut"
+      "item": "frycooks_delight:fried_chicken_leg"
     }
   ]
 }

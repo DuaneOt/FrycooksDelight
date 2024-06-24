@@ -52,7 +52,7 @@ public class FryingRecipeCategory implements IRecipeCategory<FryingRecipe> {
     @Override
     public void setRecipe(IRecipeLayoutBuilder layout, FryingRecipe fryingRecipe, IFocusGroup ingredients) {
         layout.addSlot(RecipeIngredientRole.INPUT, 1, 1).addIngredients(fryingRecipe.getIngredients().iterator().next());
-        layout.addSlot(RecipeIngredientRole.OUTPUT, 37, 24).addItemStack(new ItemStack(fryingRecipe.result.getItem(), fryingRecipe.getResultCount()));
+        layout.addSlot(RecipeIngredientRole.OUTPUT, 37, 24).addItemStacks(fryingRecipe.getResults());
     }
 
     @Override

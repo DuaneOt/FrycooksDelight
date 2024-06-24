@@ -1,5 +1,6 @@
 package com.uraneptus.frycooks_delight.core.other;
 
+import com.uraneptus.frycooks_delight.common.fluid.HotGreaseFluid;
 import com.uraneptus.frycooks_delight.core.registry.FCDBlocks;
 import com.uraneptus.frycooks_delight.core.registry.FCDFluids;
 import com.uraneptus.frycooks_delight.core.registry.FCDItems;
@@ -17,7 +18,6 @@ import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 @SuppressWarnings("unused")
 public class FCDProperties {
-
     public static final BlockBehaviour.Properties CRATE = BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).strength(2.0F, 3.0F).sound(SoundType.WOOD);
     public static final BlockBehaviour.Properties CANOLA_PLANT = BlockBehaviour.Properties.copy(Blocks.WHEAT);
     public static final BlockBehaviour.Properties WILD_CANOLA = BlockBehaviour.Properties.copy(Blocks.TALL_GRASS);
@@ -28,6 +28,9 @@ public class FCDProperties {
     public static final Item.Properties HOT_GREASE_BUCKET = new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1);
     public static final Item.Properties FRIED_POTATO = new Item.Properties().food(new FoodProperties.Builder().nutrition(8).saturationMod(2.5F).build());
     public static final Item.Properties PLAIN_DONUT = new Item.Properties().food(new FoodProperties.Builder().nutrition(7).saturationMod(2F).build());
+    public static final Item.Properties FRIED_ONION_RING = new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1.5F).build());
+    public static final Item.Properties FRIED_FISH_SLICE = new Item.Properties().food(new FoodProperties.Builder().nutrition(7).saturationMod(3.5F).build());
+    public static final Item.Properties FRIED_CHICKEN_LEG = new Item.Properties().food(new FoodProperties.Builder().nutrition(6).saturationMod(2F).build());
     public static final Item.Properties BURNT_MORSEL = new Item.Properties().food(new FoodProperties.Builder().nutrition(1).effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 600), 0.5F).build());
 
     public static final ForgeFlowingFluid.Properties HOT_GREASE_FLUID = new ForgeFlowingFluid.Properties(FCDFluids.HOT_GREASE_FLUID_TYPE, FCDFluids.HOT_GREASE_SOURCE, FCDFluids.HOT_GREASE_FLOWING)

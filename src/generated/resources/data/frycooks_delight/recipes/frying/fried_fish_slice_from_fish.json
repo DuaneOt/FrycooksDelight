@@ -1,0 +1,16 @@
+{
+  "type": "frycooks_delight:frying",
+  "ingredients": [
+    {
+      "tag": "frycooks_delight:has_fish_slice"
+    }
+  ],
+  "result": [
+    {
+      "item": "frycooks_delight:fried_fish_slice"
+    },
+    {
+      "item": "frycooks_delight:burnt_morsel"
+    }
+  ]
+}

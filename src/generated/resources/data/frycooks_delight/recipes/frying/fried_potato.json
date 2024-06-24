@@ -5,7 +5,9 @@
       "item": "minecraft:potato"
     }
   ],
-  "result": {
-    "item": "frycooks_delight:fried_potato"
-  }
+  "result": [
+    {
+      "item": "frycooks_delight:fried_potato"
+    }
+  ]
 }

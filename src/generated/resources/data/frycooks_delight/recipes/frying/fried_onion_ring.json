@@ -2,12 +2,13 @@
   "type": "frycooks_delight:frying",
   "ingredients": [
     {
-      "item": "farmersdelight:wheat_dough"
+      "item": "farmersdelight:onion"
     }
   ],
   "result": [
     {
-      "item": "frycooks_delight:plain_donut"
+      "count": 2,
+      "item": "frycooks_delight:fried_onion_ring"
     }
   ]
 }

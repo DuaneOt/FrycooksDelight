@@ -3,9 +3,12 @@ package com.uraneptus.frycooks_delight.common.fluid;
 import com.uraneptus.frycooks_delight.client.OilBubbleOptions;
 import com.uraneptus.frycooks_delight.core.other.tags.FCDFluidTags;
 import com.uraneptus.frycooks_delight.core.registry.FCDFluids;
+import com.uraneptus.frycooks_delight.core.registry.FCDItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -37,8 +40,8 @@ public abstract class HotGreaseFluid extends ForgeFlowingFluid {
     }
 
     @Override
-    public boolean move(FluidState state, LivingEntity entity, Vec3 movementVector, double gravity) {
-        return super.move(state, entity, movementVector, gravity);
+    public Item getBucket() {
+        return FCDItems.HOT_GREASE_BUCKET.get();
     }
 
     public static class Flowing extends HotGreaseFluid {

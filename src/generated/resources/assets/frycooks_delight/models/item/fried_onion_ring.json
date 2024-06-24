@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "frycooks_delight:block/wild_canola"
+    "layer0": "frycooks_delight:item/fried_onion_ring"
   }
 }

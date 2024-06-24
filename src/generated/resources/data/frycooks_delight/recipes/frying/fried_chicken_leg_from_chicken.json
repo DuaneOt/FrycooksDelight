@@ -1,0 +1,16 @@
+{
+  "type": "frycooks_delight:frying",
+  "ingredients": [
+    {
+      "item": "minecraft:chicken"
+    }
+  ],
+  "result": [
+    {
+      "item": "frycooks_delight:fried_chicken_leg"
+    },
+    {
+      "item": "frycooks_delight:burnt_morsel"
+    }
+  ]
+}

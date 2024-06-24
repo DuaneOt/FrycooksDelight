@@ -60,11 +60,14 @@ public class FrycooksDelight {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
+        /*
         event.enqueueWork(() -> FluidInteractionRegistry.addInteraction(FCDFluids.HOT_GREASE_FLUID_TYPE.get(),
                 new FluidInteractionRegistry.InteractionInformation(
                 ForgeMod.WATER_TYPE.get(),
                 fluidState -> FCDBlocks.LARD_BLOCK.get().defaultBlockState()
         )));
+
+         */
     }
 
     @SubscribeEvent

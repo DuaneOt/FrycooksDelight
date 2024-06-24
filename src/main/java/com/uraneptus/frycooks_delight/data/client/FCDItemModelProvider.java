@@ -28,6 +28,9 @@ public class FCDItemModelProvider extends ItemModelProvider {
         basicItem(FCDItems.HOT_GREASE_BUCKET);
         basicItem(FCDItems.BURNT_MORSEL);
         basicItem(FCDItems.LARD);
+        basicItem(FCDItems.FRIED_CHICKEN_LEG);
+        basicItem(FCDItems.FRIED_ONION_RING);
+        basicItem(FCDItems.FRIED_FISH_SLICE);
     }
 
     private void basicBlockItem(Supplier<? extends Block> blockForItem) {
