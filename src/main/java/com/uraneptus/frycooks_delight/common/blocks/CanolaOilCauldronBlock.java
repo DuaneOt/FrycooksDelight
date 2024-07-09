@@ -128,16 +128,30 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock implements Worl
         if (isBoiling(pState, pLevel, pPos)) {
             if (pEntity instanceof ItemEntity itemEntity) {
                 ItemStack itemstack = itemEntity.getItem();
+                int count = itemstack.getCount();
+
                 if (itemstack.is(FCDItemTags.OIL_DESTROYS) || itemstack.getItem() instanceof BannerPatternItem) {
                     itemEntity.discard();
                     pLevel.playSound(null, pPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
                     randomStageIncrease(itemstack, pLevel, pState, pPos);
                 }
+
                 if (itemstack.is(FCDItemTags.CAUSE_OIL_OVERFLOW)) {
                     pLevel.setBlock(pPos.above(), FCDBlocks.HOT_GREASE.get().defaultBlockState(), Block.UPDATE_ALL);
                     pLevel.setBlock(pPos, Blocks.CAULDRON.defaultBlockState(), Block.UPDATE_ALL);
+                    pLevel.playSound(null, pPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
                     itemEntity.discard();
                 }
+
+                if (pState.getValue(OIL_STAGE) == 8 && !itemstack.is(FCDItemTags.OIL_DESTROYS)
+                        && (itemstack.isEdible() || itemstack.is(FCDItemTags.BURNS_TO_MORSEL) || itemstack.getItem() instanceof SpawnEggItem)) {
+                    ItemStack burntNugget = FCDItems.BURNT_MORSEL.get().getDefaultInstance();
+                    burntNugget.setCount(itemEntity.getItem().getCount());
+                    itemEntity.discard();
+                    finishFrying(burntNugget, pLevel, pPos, 1.0F);
+                    randomStageIncrease(burntNugget, pLevel, pState, pPos);
+                }
+
                 if (pState.getValue(OIL_STAGE) < 8) {
                     boolean recipeFlag = false;
                     ArrayList<FryingRecipe> recipes = new ArrayList<>(FryingRecipe.getRecipes(pLevel));
@@ -145,27 +159,12 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock implements Worl
                         for (ItemStack ingredient : recipe.getIngredients().iterator().next().getItems()) {
                             if (itemstack.is(ingredient.getItem())) {
                                 recipeFlag = true;
-                                List<ItemStack> results = recipe.getResults();
-                                int resultsAmount = results.size();
-                                for (int i = 0; i < itemEntity.getItem().getCount(); i++) {
-                                    ItemStack resultItem;
-                                    if (resultsAmount > 1) {
-                                        for (int j = 0; j <= results.size(); j++) {
-                                            resultItem = results.get(j);
-                                            //resultItem.setCount(results.get(j).getCount());
-                                            itemEntity.discard();
-                                            finishFrying(resultItem, pLevel, pPos, 1.0F);
-                                            randomStageIncrease(resultItem, pLevel, pState, pPos);
-                                        }
-                                    } else {
-                                        resultItem = results.get(0);
-                                        itemEntity.discard();
-                                        finishFrying(resultItem, pLevel, pPos, 1.0F);
-                                        randomStageIncrease(resultItem, pLevel, pState, pPos);
-                                    }
-
+                                for (ItemStack stack : recipe.getResults()) {
+                                    itemEntity.discard();
+                                    int resultCount = count * stack.getCount();
+                                    finishFrying(stack.copyWithCount(resultCount), pLevel, pPos, 1.0F);
+                                    randomStageIncrease(stack.copyWithCount(resultCount), pLevel, pState, pPos);
                                 }
-
                             }
                         }
                     }
@@ -183,20 +182,15 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock implements Worl
                             randomStageIncrease(result, pLevel, pState, pPos);
                         }
                     }
-                } else if (pState.getValue(OIL_STAGE) == 8) {
-                    ItemStack burntNugget = FCDItems.BURNT_MORSEL.get().getDefaultInstance();
-                    burntNugget.setCount(itemEntity.getItem().getCount());
-                    itemEntity.discard();
-                    finishFrying(burntNugget, pLevel, pPos, 1.0F);
-                    randomStageIncrease(burntNugget, pLevel, pState, pPos);
                 }
+
             } else if (pEntity instanceof LivingEntity) {
                 pEntity.hurt(pLevel.damageSources().source(FCDDamageTypes.FRYING), 2.0F);
             }
         }
     }
 
-    public void finishFrying(ItemStack resultItem, Level pLevel, BlockPos pPos, float volume) {
+    public static void finishFrying(ItemStack resultItem, Level pLevel, BlockPos pPos, float volume) {
         pLevel.addFreshEntity(new ItemEntity(pLevel, pPos.getX() + 0.5, pPos.getY() + 1.5F, pPos.getZ() + 0.5, resultItem));
         pLevel.playSound(null, pPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, volume, 1.0F);
     }

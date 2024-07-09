@@ -32,7 +32,7 @@ public class FCDItemTagsProvider extends ItemTagsProvider {
         tag(Tags.Items.SEEDS).addTag(FCDItemTags.CANOLA_SEEDS);
         tag(FCDItemTags.CANOLA_CROPS).add(FCDItems.CANOLA.get());
         tag(Tags.Items.CROPS).addTag(FCDItemTags.CANOLA_CROPS);
-        tag(ItemTags.SMALL_FLOWERS).add(FCDBlocks.WILD_CANOLA.get().asItem());
+        tag(ItemTags.SMALL_FLOWERS).add(FCDBlocks.WILD_CANOLA.get().asItem(), FCDBlocks.CANOLA_PLANT.get().asItem());
 
         tag(FCDItemTags.IS_FRIED).add(
                 FCDItems.FRIED_POTATO.get(),
