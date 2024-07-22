@@ -1,5 +1,6 @@
 package com.uraneptus.frycooks_delight.common.blocks;
 
+import com.uraneptus.frycooks_delight.core.other.tags.FCDEntityTypeTags;
 import com.uraneptus.frycooks_delight.core.other.tags.FCDItemTags;
 import com.uraneptus.frycooks_delight.core.registry.FCDDamageTypes;
 import com.uraneptus.frycooks_delight.core.registry.FCDItems;
@@ -27,7 +28,7 @@ public class HotGreaseFluidBlock extends LiquidBlock {
 
     @Override
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
-        if (pEntity instanceof LivingEntity) {
+        if (pEntity instanceof LivingEntity && !pEntity.getType().is(FCDEntityTypeTags.FRYING_IMMUNE_ENTITY_TYPES)) {
             pEntity.hurt(pLevel.damageSources().source(FCDDamageTypes.FRYING), 1.0F);
         }
         if  (pEntity instanceof ItemEntity itemEntity) {

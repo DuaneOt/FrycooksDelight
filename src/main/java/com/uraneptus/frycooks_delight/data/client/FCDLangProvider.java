@@ -25,6 +25,7 @@ public class FCDLangProvider extends LanguageProvider {
         FCDTextUtil.TRANSLATABLES.forEach(this::add);
         forBlock(FCDBlocks.CANOLA_PLANT);
         add("death.attack.frying", "%1$s was fried to a delicious crisp");
+        add("effect.frycooks_delight.oiled", "Oiled");
     }
 
     protected void forItem(Supplier<? extends Item> item) {

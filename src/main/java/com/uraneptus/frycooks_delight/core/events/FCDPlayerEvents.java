@@ -2,17 +2,25 @@ package com.uraneptus.frycooks_delight.core.events;
 
 import com.uraneptus.frycooks_delight.FrycooksDelight;
 import com.uraneptus.frycooks_delight.common.blocks.CanolaOilCauldronBlock;
+import com.uraneptus.frycooks_delight.core.other.tags.FCDEntityTypeTags;
 import com.uraneptus.frycooks_delight.core.registry.FCDBlocks;
 import com.uraneptus.frycooks_delight.core.registry.FCDDamageTypes;
 import com.uraneptus.frycooks_delight.core.registry.FCDItems;
+import com.uraneptus.frycooks_delight.core.registry.FCDMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.decoration.ItemFrame;
+import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -34,10 +42,17 @@ public class FCDPlayerEvents {
         ItemStack itemStack = event.getItemStack();
         Entity entity = event.getTarget();
         Player player = event.getEntity();
-        if (itemStack.is(FCDItems.CANOLA_OIL.get()) && entity instanceof ItemFrame && player.isShiftKeyDown()) {
-            entity.setInvisible(true);
-            emptyBottle(player, itemStack);
-            event.setCanceled(true);
+        if (itemStack.is(FCDItems.CANOLA_OIL.get())) {
+            if (entity instanceof ItemFrame && player.isShiftKeyDown()) {
+                entity.setInvisible(true);
+                emptyBottle(player, itemStack);
+                event.setCanceled(true);
+            }
+
+            if (entity instanceof LivingEntity livingEntity && livingEntity.getType().is(FCDEntityTypeTags.CAN_BE_OILED)) {
+                emptyBottle(player, itemStack);
+                livingEntity.addEffect(new MobEffectInstance(FCDMobEffects.OILED.get(), 6000));
+            }
         }
     }
 
