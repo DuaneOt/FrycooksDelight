@@ -2,6 +2,7 @@ package com.uraneptus.frycooks_delight.common.blocks;
 
 import com.uraneptus.frycooks_delight.client.OilBubbleOptions;
 import com.uraneptus.frycooks_delight.common.recipe.FryingRecipe;
+import com.uraneptus.frycooks_delight.core.other.FCDCriteriaTriggers;
 import com.uraneptus.frycooks_delight.core.other.tags.FCDBlockTags;
 import com.uraneptus.frycooks_delight.core.other.tags.FCDItemTags;
 import com.uraneptus.frycooks_delight.core.registry.FCDBlocks;
@@ -11,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -140,6 +142,9 @@ public class CanolaOilCauldronBlock extends LayeredCauldronBlock implements Worl
                     pLevel.setBlock(pPos.above(), FCDBlocks.HOT_GREASE.get().defaultBlockState(), Block.UPDATE_ALL);
                     pLevel.setBlock(pPos, Blocks.CAULDRON.defaultBlockState(), Block.UPDATE_ALL);
                     pLevel.playSound(null, pPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    if (itemEntity.getOwner() instanceof ServerPlayer serverPlayer) {
+                        FCDCriteriaTriggers.FRYING_ICE.trigger(serverPlayer);
+                    }
                     itemEntity.discard();
                 }
 

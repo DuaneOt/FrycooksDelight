@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings("unused")
 public class FCDAdvancementProvider extends ForgeAdvancementProvider {
     public FCDAdvancementProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper fileHelperIn) {
-        super(packOutput, registries, fileHelperIn, List.of(new FCDAdventureAdvancements()));
+        super(packOutput, registries, fileHelperIn, List.of(new FCDFDAdvancements()));
     }
 
 }

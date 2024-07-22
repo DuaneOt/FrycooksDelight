@@ -1,5 +1,6 @@
 package com.uraneptus.frycooks_delight;
 
+import com.uraneptus.frycooks_delight.core.other.FCDCriteriaTriggers;
 import com.uraneptus.frycooks_delight.core.other.FCDTextUtil;
 import com.uraneptus.frycooks_delight.core.registry.*;
 import com.uraneptus.frycooks_delight.data.client.FCDBlockStateProvider;
@@ -7,6 +8,7 @@ import com.uraneptus.frycooks_delight.data.client.FCDItemModelProvider;
 import com.uraneptus.frycooks_delight.data.client.FCDLangProvider;
 import com.uraneptus.frycooks_delight.data.client.FCDSoundDefinitionsProvider;
 import com.uraneptus.frycooks_delight.data.server.FCDDatapackBuiltinEntriesProvider;
+import com.uraneptus.frycooks_delight.data.server.advancements.FCDFDAdvancements;
 import com.uraneptus.frycooks_delight.data.server.recipe.FCDRecipeProvider;
 import com.uraneptus.frycooks_delight.data.server.advancements.FCDAdvancementProvider;
 import com.uraneptus.frycooks_delight.data.server.loot.FCDLootTableProvider;
@@ -40,6 +42,8 @@ public class FrycooksDelight {
         bus.addListener(this::gatherData);
 
         FCDTextUtil.init();
+        FCDCriteriaTriggers.init();
+        FCDFDAdvancements.initAdvancementTranslations();
         FCDBlocks.BLOCKS.register(bus);
         FCDItems.ITEMS.register(bus);
         FCDFluids.FLUID_TYPES.register(bus);
@@ -58,11 +62,13 @@ public class FrycooksDelight {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> FluidInteractionRegistry.addInteraction(FCDFluids.HOT_GREASE_FLUID_TYPE.get(),
-                new FluidInteractionRegistry.InteractionInformation(
-                ForgeMod.WATER_TYPE.get(),
-                fluidState -> FCDBlocks.LARD_BLOCK.get().defaultBlockState()
-        )));
+        event.enqueueWork(() -> {
+            FluidInteractionRegistry.addInteraction(FCDFluids.HOT_GREASE_FLUID_TYPE.get(),
+                    new FluidInteractionRegistry.InteractionInformation(
+                            ForgeMod.WATER_TYPE.get(),
+                            fluidState -> FCDBlocks.LARD_BLOCK.get().defaultBlockState()
+            ));
+        });
     }
 
     @SubscribeEvent

@@ -2,12 +2,14 @@ package com.uraneptus.frycooks_delight.core.events;
 
 import com.uraneptus.frycooks_delight.FrycooksDelight;
 import com.uraneptus.frycooks_delight.common.blocks.CanolaOilCauldronBlock;
+import com.uraneptus.frycooks_delight.core.other.FCDCriteriaTriggers;
 import com.uraneptus.frycooks_delight.core.other.tags.FCDEntityTypeTags;
 import com.uraneptus.frycooks_delight.core.registry.FCDBlocks;
 import com.uraneptus.frycooks_delight.core.registry.FCDDamageTypes;
 import com.uraneptus.frycooks_delight.core.registry.FCDItems;
 import com.uraneptus.frycooks_delight.core.registry.FCDMobEffects;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -50,6 +52,9 @@ public class FCDPlayerEvents {
             }
 
             if (entity instanceof LivingEntity livingEntity && livingEntity.getType().is(FCDEntityTypeTags.CAN_BE_OILED)) {
+                if (livingEntity.getType().is(FCDEntityTypeTags.PANIC_WHEN_OILED) && player instanceof ServerPlayer serverPlayer) {
+                    FCDCriteriaTriggers.OILED_PIG.trigger(serverPlayer);
+                }
                 emptyBottle(player, itemStack);
                 livingEntity.addEffect(new MobEffectInstance(FCDMobEffects.OILED.get(), 6000));
             }

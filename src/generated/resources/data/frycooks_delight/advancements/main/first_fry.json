@@ -1,0 +1,36 @@
+{
+  "parent": "farmersdelight:main/root",
+  "criteria": {
+    "first_fry": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "frycooks_delight:is_fried"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.farmersdelight.first_fry.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "frycooks_delight:fried_potato"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.farmersdelight.first_fry.title"
+    }
+  },
+  "requirements": [
+    [
+      "first_fry"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

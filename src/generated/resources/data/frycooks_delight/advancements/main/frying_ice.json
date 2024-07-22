@@ -1,0 +1,29 @@
+{
+  "parent": "farmersdelight:main/root",
+  "criteria": {
+    "frying_ice": {
+      "trigger": "frycooks_delight:frying_ice"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.farmersdelight.frying_ice.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "frycooks_delight:hot_grease_bucket"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.farmersdelight.frying_ice.title"
+    }
+  },
+  "requirements": [
+    [
+      "frying_ice"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

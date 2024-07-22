@@ -1,0 +1,29 @@
+{
+  "parent": "farmersdelight:main/root",
+  "criteria": {
+    "oiled_pig": {
+      "trigger": "frycooks_delight:oiled_pig"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.farmersdelight.illegal_in_minnesota.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "frycooks_delight:canola_oil"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.farmersdelight.illegal_in_minnesota.title"
+    }
+  },
+  "requirements": [
+    [
+      "oiled_pig"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
