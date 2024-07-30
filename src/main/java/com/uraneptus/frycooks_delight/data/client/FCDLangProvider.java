@@ -26,6 +26,7 @@ public class FCDLangProvider extends LanguageProvider {
         forBlock(FCDBlocks.CANOLA_PLANT);
         add("death.attack.frying", "%1$s was fried to a delicious crisp");
         add("effect.frycooks_delight.oiled", "Oiled");
+        add("fluid_type.frycooks_delight.hot_grease", "Hot Grease");
     }
 
     protected void forItem(Supplier<? extends Item> item) {

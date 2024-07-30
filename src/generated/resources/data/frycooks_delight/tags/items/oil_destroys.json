@@ -35,12 +35,15 @@
     "farmersdelight:canvas_rug",
     "farmersdelight:rope",
     "farmersdelight:sandy_shrub",
+    "frycooks_delight:lard",
+    "frycooks_delight:lard_block",
     "#minecraft:leaves",
     "#minecraft:saplings",
     "#minecraft:flowers",
     "#minecraft:tall_flowers",
     "#minecraft:candles",
     "#minecraft:bookshelf_books",
-    "#forge:seeds"
+    "#forge:seeds",
+    "#forge:crops/canola"
   ]
 }

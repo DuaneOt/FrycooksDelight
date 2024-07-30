@@ -33,6 +33,7 @@ public class FCDItemTagsProvider extends ItemTagsProvider {
         tag(FCDItemTags.CANOLA_CROPS).add(FCDItems.CANOLA.get());
         tag(Tags.Items.CROPS).addTag(FCDItemTags.CANOLA_CROPS);
         tag(ItemTags.SMALL_FLOWERS).add(FCDBlocks.WILD_CANOLA.get().asItem(), FCDBlocks.CANOLA_PLANT.get().asItem());
+        tag(ModTags.WILD_CROPS_ITEM).add(FCDBlocks.WILD_CANOLA.get().asItem());
 
         tag(FCDItemTags.IS_FRIED).add(
                 FCDItems.FRIED_POTATO.get(),
@@ -168,14 +169,17 @@ public class FCDItemTagsProvider extends ItemTagsProvider {
             ModItems.SAFETY_NET.get(),
             ModItems.CANVAS_RUG.get(),
             ModItems.ROPE.get(),
-            ModItems.SANDY_SHRUB.get()
+            ModItems.SANDY_SHRUB.get(),
+            FCDItems.LARD.get(),
+            FCDBlocks.LARD_BLOCK.get().asItem()
         ).addTags(ItemTags.LEAVES,
                 ItemTags.SAPLINGS,
                 ItemTags.FLOWERS,
                 ItemTags.TALL_FLOWERS,
                 ItemTags.CANDLES,
                 ItemTags.BOOKSHELF_BOOKS,
-                Tags.Items.SEEDS
+                Tags.Items.SEEDS,
+                FCDItemTags.CANOLA_CROPS
         );
     }
 }
