@@ -18,6 +18,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -68,6 +69,9 @@ public class FrycooksDelight {
                             ForgeMod.WATER_TYPE.get(),
                             fluidState -> FCDBlocks.LARD_BLOCK.get().defaultBlockState()
             ));
+            ComposterBlock.add(0.65F, FCDBlocks.WILD_CANOLA.get());
+            ComposterBlock.add(0.3F, FCDItems.CANOLA_SEEDS.get());
+            ComposterBlock.add(0.65F, FCDItems.CANOLA.get());
         });
     }
 
